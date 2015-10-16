@@ -45,6 +45,10 @@ Game.init = function () {
 
 Game.update = function (delta) {
     this.controls.update();
+
+    this.knot.rotation.x += (Math.PI / 4) * delta;
+    this.knotBBox.update();
+
     Utils.updateShadow(this.pointShadow, this.point);
 
     this.sphere.material = this.sphereBBox.box.containsPoint(this.point.position)
