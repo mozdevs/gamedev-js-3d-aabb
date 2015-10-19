@@ -51,7 +51,8 @@ Game.update = function (delta) {
 
     Utils.updateShadow(this.pointShadow, this.point);
 
-    this.sphere.material = this.sphereBBox.box.containsPoint(this.point.position)
+    this.sphere.material =
+        this.sphereBBox.box.containsPoint(this.point.position)
         ? this.materials.colliding
         : this.materials.solid;
 
@@ -64,4 +65,4 @@ Game.toggleDebug = function () {
     this.debug = !this.debug;
     this.knotBBox.visible = !!this.debug;
     this.sphereBBox.visible = !!this.debug;
-};kk
+};
