@@ -108,6 +108,9 @@ Utils.updateShadow = function (shadow, target) {
     shadow.position.x = target.position.x;
     shadow.position.z = target.position.z;
     shadow.visible = target.position.y >= 0;
+
+    shadow.scale.x = target.scale.x;
+    shadow.scale.y = target.scale.z;
 };
 
 
