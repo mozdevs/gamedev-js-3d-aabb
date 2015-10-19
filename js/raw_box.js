@@ -68,11 +68,11 @@ Game.update = function (delta) {
 
     // change sphere size
     var scale = 0.25 + Math.abs(Math.sin(this.timestamp));
-    // this.sphere.scale.set(scale, scale, scale);
+    this.sphere.scale.set(scale, scale, scale);
     // re-calculate bounding sphere
-    // this.sphereBBox.radius = this.sphere.geometry.boundingSphere.radius * scale;
+    this.sphereBBox.radius = this.sphere.geometry.boundingSphere.radius * scale;
     // update shadow size
-    // Utils.updateShadow(this.sphereShadow, this.sphere);
+    Utils.updateShadow(this.sphereShadow, this.sphere);
 
     // update the cube AABB and shadow
     this.cubeBBox.setFromObject(this.cube);
