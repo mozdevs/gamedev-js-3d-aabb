@@ -94,7 +94,7 @@ Utils.createShadow = function (mesh, material) {
     var params = mesh.geometry.parameters;
     var geo = mesh.geometry.type === 'BoxGeometry'
         ? new THREE.PlaneGeometry(params.width, params.depth)
-        : new THREE.CircleGeometry(params.radius, 24);
+        : new THREE.CircleGeometry(mesh.geometry.boundingSphere.radius, 24);
 
     var shadow = new THREE.Mesh(geo, material);
     shadow.rotation.x = -Math.PI / 2;
