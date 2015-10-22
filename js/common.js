@@ -92,6 +92,7 @@ var Utils =  {};
 
 Utils.createShadow = function (mesh, material) {
     var params = mesh.geometry.parameters;
+    mesh.geometry.computeBoundingSphere();
     var geo = mesh.geometry.type === 'BoxGeometry'
         ? new THREE.PlaneGeometry(params.width, params.depth)
         : new THREE.CircleGeometry(mesh.geometry.boundingSphere.radius, 24);
