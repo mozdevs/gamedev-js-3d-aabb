@@ -83,7 +83,7 @@ Game.update = function (delta) {
         ? this.materials.colliding
         : this.materials.solid;
 
-    this.knot.material = this.knotBBox.isIntersectionBox(this.cubeBBox)
+    this.knot.material = this.knotBBox.intersectsBox(this.cubeBBox)
         ? this.materials.colliding
         : this.materials.solid;
 };
