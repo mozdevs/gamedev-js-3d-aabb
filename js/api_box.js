@@ -6,33 +6,39 @@ Game.init = function () {
     this.knot.position.x = -3;
     this.knot.position.z = 1;
     this.knot.position.y = 2;
-    this.knotBBox = new THREE.BoundingBoxHelper(this.knot, 0x00ff00);
-    this.knotBBox.update();
-    this.knotBBox.visible = false;
+    this.knotBoxHelper = new THREE.BoxHelper(this.knot, 0x00ff00);
+    this.knotBoxHelper.update();
+    this.knotBBox = new THREE.Box3();
+    this.knotBBox.setFromObject(this.knotBoxHelper);
+    this.knotBoxHelper.visible = false;
 
     this.sphere = new THREE.Mesh(
         new THREE.SphereGeometry(1), this.materials.solid);
     this.sphere.position.x = 2;
     this.sphere.position.y = 2;
-    this.sphereBBox = new THREE.BoundingBoxHelper(this.sphere, 0x00ff00);
-    this.sphereBBox.update();
-    this.sphereBBox.visible = false;
+    this.sphereBoxHelper = new THREE.BoxHelper(this.sphere, 0x00ff00);
+    this.sphereBoxHelper.update();
+    this.sphereBBox = new THREE.Box3();
+    this.sphereBBox.setFromObject(this.sphereBoxHelper);
+    this.sphereBoxHelper.visible = false;
 
     // the object the user can control to check for collisions
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.75, 0.5),
         this.materials.solid);
     this.cube.position.set(0.5, 1, 2);
     this.cubeShadow = Utils.createShadow(this.cube, this.materials.shadow);
-    this.cubeBBox = new THREE.BoundingBoxHelper(this.cube, 0x00ff00);
-    this.cubeBBox.update();
-    this.cubeBBox.visible = false;
+    this.cubeBoxHelper = new THREE.BoxHelper(this.cube, 0x00ff00);
+    this.cubeBoxHelper.update();
+    this.cubeBBox = new THREE.Box3();
+    this.cubeBBox.setFromObject(this.cubeBoxHelper);
+    this.cubeBoxHelper.visible = false;
 
     this.scene.add(this.cube);
-    this.scene.add(this.cubeBBox);
+    this.scene.add(this.cubeBoxHelper);
     this.scene.add(this.knot);
-    this.scene.add(this.knotBBox);
+    this.scene.add(this.knotBoxHelper);
     this.scene.add(this.sphere);
-    this.scene.add(this.sphereBBox);
+    this.scene.add(this.sphereBoxHelper);
     // add fake shadows
     this.scene.add(Utils.createShadow(this.sphere, this.materials.shadow));
     this.scene.add(Utils.createShadow(this.knot, this.materials.shadow));
@@ -49,24 +55,26 @@ Game.update = function (delta) {
     this.controls.update();
 
     this.knot.rotation.x += (Math.PI / 4) * delta;
-    this.knotBBox.update();
+    this.knotBoxHelper.update();
+    this.knotBBox.setFromObject(this.knotBoxHelper);
 
     Utils.updateShadow(this.cubeShadow, this.cube);
-    this.cubeBBox.update(); // update the bbox to match the cube's position
+    this.cubeBoxHelper.update(); // update the BoxHelper to match the cube's position
+    this.cubeBBox.setFromObject(this.cubeBoxHelper);
 
     this.sphere.material =
-        this.sphereBBox.box.intersectsBox(this.cubeBBox.box)
+        this.sphereBBox.intersectsBox(this.cubeBBox)
         ? this.materials.colliding
         : this.materials.solid;
 
-    this.knot.material = this.knotBBox.box.intersectsBox(this.cubeBBox.box)
+    this.knot.material = this.knotBBox.intersectsBox(this.cubeBBox)
         ? this.materials.colliding
         : this.materials.solid;
 };
 
 Game.toggleDebug = function () {
     this.debug = !this.debug;
-    this.knotBBox.visible = !!this.debug;
-    this.sphereBBox.visible = !!this.debug;
-    this.cubeBBox.visible = !!this.debug;
+    this.knotBoxHelper.visible = !!this.debug;
+    this.sphereBoxHelper.visible = !!this.debug;
+    this.cubeBoxHelper.visible = !!this.debug;
 };
