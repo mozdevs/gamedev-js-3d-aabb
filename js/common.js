@@ -34,7 +34,7 @@ Game.run = function () {
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.01; // to avoid z-fighting with axis and shadows
     this.scene.add(ground);
-    this.scene.add((new THREE.AxisHelper(8)));
+    this.scene.add((new THREE.AxesHelper(8)));
 
 
     document.addEventListener('keyup', function (event) {
