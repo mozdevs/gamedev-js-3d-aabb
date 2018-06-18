@@ -55,11 +55,11 @@ Game.update = function (delta) {
     this.cubeBBox.update(); // update the bbox to match the cube's position
 
     this.sphere.material =
-        this.sphereBBox.box.isIntersectionBox(this.cubeBBox.box)
+        this.sphereBBox.box.intersectsBox(this.cubeBBox.box)
         ? this.materials.colliding
         : this.materials.solid;
 
-    this.knot.material = this.knotBBox.box.isIntersectionBox(this.cubeBBox.box)
+    this.knot.material = this.knotBBox.box.intersectsBox(this.cubeBBox.box)
         ? this.materials.colliding
         : this.materials.solid;
 };
