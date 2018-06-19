@@ -8,17 +8,21 @@ Game.init = function () {
     this.knot.position.x = -3;
     this.knot.position.z = 1;
     this.knot.position.y = 2;
-    this.knotBBox = new THREE.BoundingBoxHelper(this.knot, 0x00ff00);
-    this.knotBBox.update();
-    this.knotBBox.visible = false;
+    this.knotBoxHelper = new THREE.BoxHelper(this.knot, 0x00ff00);
+    this.knotBoxHelper.update();
+    this.knotBBox = new THREE.Box3();
+    this.knotBBox.setFromObject(this.knotBoxHelper);
+    this.knotBoxHelper.visible = false;
 
     this.sphere = new THREE.Mesh(
         new THREE.SphereGeometry(1), this.materials.solid);
     this.sphere.position.x = 2;
     this.sphere.position.y = 2;
-    this.sphereBBox = new THREE.BoundingBoxHelper(this.sphere, 0x00ff00);
-    this.sphereBBox.update();
-    this.sphereBBox.visible = false;
+    this.sphereBoxHelper = new THREE.BoxHelper(this.sphere, 0x00ff00);
+    this.sphereBoxHelper.update();
+    this.sphereBBox = new THREE.Box3();
+    this.sphereBBox.setFromObject(this.sphereBoxHelper);
+    this.sphereBoxHelper.visible = false;
 
     this.point = new THREE.Mesh(dotGeo, this.materials.dot);
     this.point.position.x = 0.5;
@@ -28,9 +32,9 @@ Game.init = function () {
 
     this.scene.add(this.point);
     this.scene.add(this.knot);
-    this.scene.add(this.knotBBox);
+    this.scene.add(this.knotBoxHelper);
     this.scene.add(this.sphere);
-    this.scene.add(this.sphereBBox);
+    this.scene.add(this.sphereBoxHelper);
     // add fake shadows
     this.scene.add(Utils.createShadow(this.sphere, this.materials.shadow));
     this.scene.add(Utils.createShadow(this.knot, this.materials.shadow));
@@ -45,24 +49,25 @@ Game.init = function () {
 
 Game.update = function (delta) {
     this.controls.update();
-
+    
     this.knot.rotation.x += (Math.PI / 4) * delta;
-    this.knotBBox.update();
+    this.knotBoxHelper.update();
+    this.knotBBox.setFromObject(this.knotBoxHelper);
 
     Utils.updateShadow(this.pointShadow, this.point);
 
     this.sphere.material =
-        this.sphereBBox.box.containsPoint(this.point.position)
+        this.sphereBBox.containsPoint(this.point.position)
         ? this.materials.colliding
         : this.materials.solid;
 
-    this.knot.material = this.knotBBox.box.containsPoint(this.point.position)
+    this.knot.material = this.knotBBox.containsPoint(this.point.position)
         ? this.materials.colliding
         : this.materials.solid;
 };
 
 Game.toggleDebug = function () {
     this.debug = !this.debug;
-    this.knotBBox.visible = !!this.debug;
-    this.sphereBBox.visible = !!this.debug;
+    this.knotBoxHelper.visible = !!this.debug;
+    this.sphereBoxHelper.visible = !!this.debug;
 };
