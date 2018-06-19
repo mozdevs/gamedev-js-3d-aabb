@@ -9,10 +9,10 @@ Game.init = function () {
     this.sphere = new THREE.Mesh(
         new THREE.SphereGeometry(1), this.materials.solid);
     this.sphere.position.set(2, 2, 0);
-    // No need to call this:
-    // this.sphere.geometry.computeBoundingSphere();
-    // because it is done automatically by Three.js since it is needed for
-    // frustrum culling
+    // We now need to call this:
+    this.sphere.geometry.computeBoundingSphere();
+    // because while in the past it was done automatically by Three.js since it was needed for
+    // frustrum culling, now it seems to not work anymore like that.
     this.sphereBBox = new THREE.Sphere(
         this.sphere.position,
         this.sphere.geometry.boundingSphere.radius);
