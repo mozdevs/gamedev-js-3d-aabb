@@ -2,4 +2,4 @@
 
 This is a collection of examples showcasing collision detection in 3D environments with **Axis-Aligned Bounding-Boxes**.
 
-You can take a look [at the live demos](http://mozilla-devoutreach.github.io/gamedev-js-3d-aabb/).
+You can take a look [at the live demos](http://mozdevs.github.io/gamedev-js-3d-aabb/).
